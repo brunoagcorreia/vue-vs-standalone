@@ -24,7 +24,7 @@
                         <router-link to="/logout" class="nav-link">Logout</router-link>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link text-info" v-if="$store.getters.user">{{ $store.getters.user.name }}</span>
+                        <span class="nav-link text-info" v-if="$store.getters.user" :v-model="$store.getters.time_remain">{{ $store.getters.user.name }} {{ $store.getters.timeRemain }} sec</span>
                     </li>
                 </ul>
 
@@ -54,21 +54,3 @@
         opacity: 0
     }
 </style>
-
-<script>
-import NotAuthorizedComponent from "./components/NotAuthorizedComponent";
-export default{
-    name: "App",
-    components: {NotAuthorizedComponent},
-    created: function () {
-        this.$http.interceptors.response.use(undefined, function (err) {
-            return new Promise(function (resolve, reject) {
-                if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                    this.$store.dispatch(logout);
-                }
-                throw err;
-            });
-        });
-    }
-}
-</script>

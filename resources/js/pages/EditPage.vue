@@ -53,7 +53,6 @@
         data() {
             return {
                 movie: {},
-//                author: {},
                 authors: [],
             }
         },
@@ -65,10 +64,6 @@
                 this.movie = this.$route.params.movie
             },
             update() {
-                let token = localStorage.getItem('token');
-                let headers = {
-                    "Authorization": "Bearer " + token,
-                };
                 let uri = `/api/movie/${this.$route.params.movie.id}`;
                 this.axios.put(uri, this.movie )
                     .then((response) => {

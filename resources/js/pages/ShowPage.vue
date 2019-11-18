@@ -21,12 +21,8 @@
                 movie: {}
             }
         },
-        mounted() {
-            console.log('Show Component mounted.');
-            this.getMovie()
-        },
         created() {
-            console.log('Show Component created.')
+            this.getMovie()
         },
         methods: {
             getMovie() {

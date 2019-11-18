@@ -5,11 +5,7 @@
 </template>
 
 <script>
-    export default {
-        name: "NotAuthorizedComponent"
-    }
+export default {
+    name: "NotAuthorizedComponent"
+}
 </script>
-
-<style scoped>
-
-</style>

@@ -95,11 +95,13 @@ const router = new VueRouter({ mode: 'history', routes: routes});
 const app = new Vue(Vue.util.extend({ router, store }, App)).$mount('#app');
 
 router.beforeEach((to, from, next) => {
+    console.log(to);
+    console.log(from);
     if(to.matched.some(() => to.meta.requiresAuth)) {
-        const now = (new Date()).getTime();
-        if ( parseInt(store.getters.expired_at) < now ) {
+        if ( (store.getters.timeRemain) < 0) {
             console.log('token is expired');
-            next('/vue/login');
+            next('/login');
+            return;
         }
         else if (store.getters.auth) {
             console.log('is LoggedIn');
@@ -108,10 +110,8 @@ router.beforeEach((to, from, next) => {
         }
 
         console.log('is not LoggedIn');
-        next('/vue/login');
+        next('/login');
     } else {
         next();
     }
 });
-//console.log("user")
-//console.log(store.getters.user)

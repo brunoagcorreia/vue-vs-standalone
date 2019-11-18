@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+const currenTime = (new Date()).getTime();
+
 export default new Vuex.Store({
     state: {
         status: '',
@@ -11,6 +13,7 @@ export default new Vuex.Store({
         user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
         auth: !!localStorage.getItem('token'),
         expired_at: localStorage.getItem('exprired_at') || 0,
+        time_remain: parseInt((parseInt(localStorage.getItem('exprired_at'), 10) - currenTime)/1000),
     },
     mutations: {
         auth_request(state) {
@@ -39,7 +42,7 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        login({commit}, user){
+        login({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request');
                 axios.post('/api/auth/login', user)
@@ -61,6 +64,7 @@ export default new Vuex.Store({
                         commit('auth_error');
                         localStorage.removeItem('token');
                         localStorage.removeItem('user');
+                        localStorage.removeItem('exprired_at');
                         reject(err)
                     })
             })
@@ -106,10 +110,11 @@ export default new Vuex.Store({
             })
         }
     },
-    getters : {
+    getters: {
         authStatus: state => state.status,
         user: state => state.user,
         auth: state => !!state.token,
         token: state => state.token,
-    }
+        timeRemain: state => parseInt(state.time_remain),
+    },
 })
